@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@Primary
+@Service("ratingServiceImpl")
 public class RatingServiceImpl implements RatingService{
     private RatingRepository ratingRepository;
 

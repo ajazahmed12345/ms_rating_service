@@ -2,6 +2,7 @@ package com.ajaz.microservices.ratingservice.controllers;
 
 import com.ajaz.microservices.ratingservice.models.Rating;
 import com.ajaz.microservices.ratingservice.services.RatingService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import java.util.List;
 public class RatingController {
     private RatingService ratingService;
 
-    public RatingController(RatingService ratingService){
+    public RatingController(@Qualifier("ratingServiceImpl") RatingService ratingService){
         this.ratingService = ratingService;
     }
 
