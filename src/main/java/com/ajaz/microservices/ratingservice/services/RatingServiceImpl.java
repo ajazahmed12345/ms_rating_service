@@ -1,8 +1,8 @@
 package com.ajaz.microservices.ratingservice.services;
 
+import com.ajaz.microservices.ratingservice.exceptions.RatingNotFoundException;
 import com.ajaz.microservices.ratingservice.models.Rating;
 import com.ajaz.microservices.ratingservice.repositories.RatingRepository;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,12 +21,19 @@ public class RatingServiceImpl implements RatingService{
 
     @Override
     public List<Rating> getAllRatings() {
+
         return ratingRepository.findAll();
     }
 
     @Override
-    public List<Rating> getRatingsByUserId(String userId) {
-        return ratingRepository.findAllByUserId(userId);
+    public List<Rating> getRatingsByUserId(String userId) throws RatingNotFoundException{
+
+        List<Rating> ratings = ratingRepository.findAllByUserId(userId);
+        if(ratings.isEmpty()){
+            throw new RatingNotFoundException("No ratings found with the userId: " + userId);
+        }
+
+        return ratings;
     }
 
     @Override
