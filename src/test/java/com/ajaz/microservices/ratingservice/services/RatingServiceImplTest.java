@@ -1,5 +1,6 @@
 package com.ajaz.microservices.ratingservice.services;
 
+import com.ajaz.microservices.ratingservice.exceptions.RatingNotFoundException;
 import com.ajaz.microservices.ratingservice.models.Rating;
 import com.ajaz.microservices.ratingservice.repositories.RatingRepository;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,11 +36,19 @@ class RatingServiceImplTest {
     }
 
     @Test
-    public void testGetRatingsByUserId() {
+    public void testGetRatingsByUserId() throws RatingNotFoundException {
+        String userId = "1";
+        List<Rating> ratings = Arrays.asList(new Rating());
+        Mockito.when(ratingRepository.findAllByUserId(Mockito.anyString())).thenReturn(ratings);
+        ratingService.getRatingsByUserId("3");
+    }
+
+    @Test
+    public void testGetRatingsByUserIdCoveringExceptionCase() {
         String userId = "1";
         List<Rating> ratings = new ArrayList<>();
         Mockito.when(ratingRepository.findAllByUserId(Mockito.anyString())).thenReturn(ratings);
-        ratingService.getRatingsByUserId(userId);
+        assertThrows(RatingNotFoundException.class, () -> ratingService.getRatingsByUserId(userId));
     }
 
     @Test
