@@ -1,5 +1,6 @@
 package com.ajaz.microservices.ratingservice.controllers;
 
+import com.ajaz.microservices.ratingservice.exceptions.RatingNotFoundException;
 import com.ajaz.microservices.ratingservice.models.Rating;
 import com.ajaz.microservices.ratingservice.services.RatingService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,7 +35,7 @@ public class RatingController {
     }
 
     @GetMapping("/users/{userId}")
-    public List<Rating> getRatingsByUserId(@PathVariable("userId") String userId){
+    public List<Rating> getRatingsByUserId(@PathVariable("userId") String userId) throws RatingNotFoundException {
         return ratingService.getRatingsByUserId(userId);
     }
 
